@@ -1,0 +1,79 @@
+{
+   "ts-node": {
+      "transpileOnly": true,
+      "require": [
+         "tsconfig-paths/register"
+      ]
+   },
+   "compilerOptions": {
+      "lib": [
+         "es2021",
+         "es6"
+      ],
+      "target": "es2021",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "outDir": "./dist",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "sourceMap": true,
+      "removeComments": false,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "noImplicitThis": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": true,
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "resolveJsonModule": true,
+      "rootDir": ".",
+      "allowJs": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,
+      "strictPropertyInitialization": false,
+      "skipLibCheck": true,
+      "baseUrl": ".",
+      "paths": {
+         "*": ["node_modules/*"],
+         "@adapters/*": [
+            "src/adapters/*"
+         ],
+         "@controllers/*": [
+            "src/controllers/*"
+         ],
+         "@entities/*": [
+            "src/entities/*"
+         ],
+         "@errors/*": [
+            "src/errors/*"
+         ],
+         "@repositories/*": [
+            "src/repositories/*"
+         ],
+         "@routes/*": [
+            "src/routes/*"
+         ],
+         "@server/*": [
+            "src/server/*"
+         ],
+         "@storage/*": [
+            "src/storage/*"
+         ],
+         "@services/*": [
+            "src/services/*"
+         ],
+         "@validations/*": [
+            "src/validations/*"
+         ],
+      },
+      "typeRoots": [
+         "./src/@types",
+         "./global.d.ts",
+         "./node_modules/@types",
+         "./src/types"
+      ]
+   }
+}
