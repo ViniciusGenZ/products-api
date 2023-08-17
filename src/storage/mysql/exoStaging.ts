@@ -1,20 +1,19 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
-
-import { Category } from '@entities/exo/category';
-import { Brand } from '@entities/exo/brand';
-import { ProductImage } from '@entities/exo/productImage';
-import { ProductHasImages } from '@entities/exo/productHasImages';
-import { Product } from '@entities/exo/product';
-import { CategoryHasBrands } from '@entities/exo/categoryHasBrands';
-import { ProductHasBrands } from '@entities/exo/productHasBrands';
-import { ProductHasCategories } from '@entities/exo/productHasCategories';
-import { Color } from '@entities/exo/color';
-import { Material } from '@entities/exo/material';
-import { ProductDetail } from '@entities/exo/productDetail';
-import { ProductHasMaterials } from '@entities/exo/productHasMaterials';
-import { ProductHasColors } from '@entities/exo/productHasColors';
+import { Brand } from '@entities/brand';
+import { Category } from '@entities/category';
+import { CategoryHasBrands } from '@entities/categoryHasBrands';
+import { Color } from '@entities/color';
+import { Material } from '@entities/material';
+import { Product } from '@entities/product';
+import { ProductDetail } from '@entities/productDetail';
+import { ProductHasBrands } from '@entities/productHasBrands';
+import { ProductHasCategories } from '@entities/productHasCategories';
+import { ProductHasColors } from '@entities/productHasColors';
+import { ProductHasImages } from '@entities/productHasImages';
+import { ProductHasMaterials } from '@entities/productHasMaterials';
+import { ProductImage } from '@entities/productImage';
 
 export const exoStaging = new DataSource({
 	type: 'mysql',
@@ -23,7 +22,7 @@ export const exoStaging = new DataSource({
 	username: process.env.MYSQL_DATABASE_USER,
 	database: process.env.MYSQL_DATABASE_DB,
 	password: process.env.MYSQL_DATABASE_PASSWORD,
-	synchronize: true,
+	synchronize: false,
 	logging: false,
 	entities: [
 		Brand,

@@ -47,6 +47,9 @@
          "@entities/*": [
             "src/entities/*"
          ],
+         "@interfaces/*": [
+            "src/interfaces/*"
+         ],
          "@errors/*": [
             "src/errors/*"
          ],

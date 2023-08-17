@@ -17,6 +17,24 @@ export class Product extends Base {
 	@PrimaryGeneratedColumn()
 	id_product: number;
 
+	@Column({ default: 0 })
+	stock: number;
+
+	@Column({ type: 'decimal' })
+	price_ven: number;
+
+	@Column({ type: 'decimal' })
+	price_atac: number;
+
+	@Column({ type: 'decimal' })
+	price_web: number;
+
+	@Column({ type: 'decimal' })
+	price_min: number;
+
+	@Column()
+	decreto: boolean;
+
 	@Column({ nullable: true })
 	bar_code?: number;
 
