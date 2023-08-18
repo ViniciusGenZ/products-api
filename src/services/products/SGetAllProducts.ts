@@ -1,5 +1,5 @@
 import { Product } from '@entities/product';
-import IOrderByEnum from '@interfaces/IOrderByEnum';
+import { IOrderByEnum } from '@interfaces/IOrderByEnum';
 import RGetAllProducts from '@repositories/products/RGetAllProducts';
 
 interface IProps {

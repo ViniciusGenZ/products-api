@@ -1,6 +1,7 @@
-import IOrderByEnum from '@interfaces/IOrderByEnum';
+import { IOrderByEnum } from '@interfaces/IOrderByEnum';
 import RProducts from './RProducts';
 import { Product } from '@entities/product';
+import { And, FindOptionsOrder, LessThan, Like, MoreThan } from 'typeorm';
 
 interface IProps {
 	offset: number;
@@ -19,6 +20,23 @@ interface IResponse {
 	products: Array<Product>;
 }
 
+function orderByHelper(
+	input: IOrderByEnum | undefined,
+): FindOptionsOrder<Product> | undefined {
+	switch (input) {
+		case IOrderByEnum.NAME_ASC:
+			return { name_en: 'asc' };
+		case IOrderByEnum.NAME_DESC:
+			return { name_en: 'desc' };
+		case IOrderByEnum.PRICE_ASC:
+			return { price_ven: 'asc' };
+		case IOrderByEnum.PRICE_DESC:
+			return { price_ven: 'desc' };
+		default:
+			return undefined;
+	}
+}
+
 async function RGetAllProducts({
 	offset,
 	limit,
@@ -30,48 +48,38 @@ async function RGetAllProducts({
 }: // category_id,
 // brand_id,
 IProps): Promise<IResponse> {
-	const query = RProducts.createQueryBuilder();
-	query.skip(offset);
-	query.take(limit);
-	query.select(
-		'id_product, stock, price_ven, decreto, code_in, internal_id, obs_br, obs_en, obs_py, description_br, description_en, description_py, name_en, name_py, name_br',
-	);
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let filter: any = {};
+	if (min_price) filter.priceFilter = MoreThan(min_price);
+	if (max_price) filter.priceFilter = LessThan(max_price);
+	if (min_price && max_price)
+		filter.priceFilter = And(MoreThan(min_price), LessThan(max_price));
 
-	if (id_product) query.andWhere('id_product = :id_product', { id_product });
-	if (name)
-		query.andWhere(
-			'name_en like :name or name_py like :name or name_br like :name',
-			{ name: `%${name}%` },
-		);
-	if (min_price) query.andWhere('price_ven >= :min_price', { min_price });
-	if (max_price) query.andWhere('price_ven <= :max_price', { max_price });
+	if (id_product) filter.id_product = id_product;
 
-	if (order_by) {
-		switch (order_by) {
-			case IOrderByEnum.NAME_ASC:
-				query.orderBy('name_py', 'ASC');
-				break;
-			case IOrderByEnum.NAME_DESC:
-				query.orderBy('name_py', 'DESC');
-				break;
-			case IOrderByEnum.PRICE_ASC:
-				query.orderBy('price_ven', 'ASC');
-				break;
-			case IOrderByEnum.PRICE_DESC:
-				query.orderBy('price_ven', 'DESC');
-				break;
-			case IOrderByEnum.POPULARITY_ASC:
-			case IOrderByEnum.POPULARITY_DESC:
-				break;
-			default:
-				break;
-		}
+	if (name) {
+		filter = [
+			{
+				...filter,
+				name_en: Like(`%${name}%`),
+			},
+			{
+				...filter,
+				name_py: Like(`%${name}%`),
+			},
+			{
+				...filter,
+				name_br: Like(`%${name}%`),
+			},
+		];
 	}
 
-	await query.relation('productHasCategories').loadMany();
-
-	const products = await query.getMany();
-	const count = await query.getCount();
+	const [products, count] = await RProducts.findAndCount({
+		where: filter,
+		skip: offset,
+		take: limit,
+		order: orderByHelper(order_by),
+	});
 
 	return { count, products };
 }

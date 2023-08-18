@@ -1,4 +1,3 @@
-import IOrderByEnum from '@interfaces/IOrderByEnum';
 import { Segments, celebrate } from 'celebrate';
 import Joi from 'joi';
 
@@ -10,7 +9,12 @@ const VProductsIndex = celebrate({
 		name: Joi.string(),
 		min_price: Joi.number(),
 		max_price: Joi.number(),
-		order_by: Joi.string().valid(IOrderByEnum),
+		order_by: Joi.string().valid(
+			'name-asc',
+			'name-desc',
+			'price-asc',
+			'price-desc',
+		),
 	}),
 });
 

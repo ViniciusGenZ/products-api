@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Query } from 'express-serve-static-core';
 import formatResponse from '@adapters/formatResponse';
 import defaultErrorTreatment from '@errors/defaultErrorTreatment';
-import IOrderByEnum from '@interfaces/IOrderByEnum';
+import { IOrderByEnum } from '@interfaces/IOrderByEnum';
 import SGetAllProducts from '@services/products/SGetAllProducts';
 
 type TypedRequest = Omit<Request, 'query'> & {
