@@ -1,8 +1,10 @@
 import { Segments, celebrate } from 'celebrate';
 import Joi from 'joi';
 
-export const productsShowValidation = celebrate({
+const VProductShow = celebrate({
 	[Segments.PARAMS]: Joi.object().keys({
-		id: Joi.number().required().min(0),
+		internal_id: Joi.number().required().min(0),
 	}),
 });
+
+export default VProductShow;

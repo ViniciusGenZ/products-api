@@ -1,22 +1,23 @@
 import { Request, Response } from 'express';
-import { formatResponse } from '../../adapters/formatResponse';
-import defaultErrorTreatment from '../../errors/defaultErrorTreatment';
-import productsIndexService from '@services/products';
+import formatResponse from '@adapters/formatResponse';
+import defaultErrorTreatment from '@errors/defaultErrorTreatment';
 import { ParamsDictionary } from 'express-serve-static-core';
+import SGetOneProductByInternalId from '@services/products/SGetOneProductByInternalId';
 
 type TypedRequest = Omit<Request, 'params'> & {
 	params: ParamsDictionary & {
-		id: number;
+		internal_id: number;
 	};
 };
 
-const productsShowController = async (_req: TypedRequest, res: Response) => {
+const CProductShow = async (req: TypedRequest, res: Response) => {
 	try {
-		const products = await productsIndexService({ offset: 0, limit: 10 });
-		return formatResponse(res, 200, 'OK', products);
+		const response = await SGetOneProductByInternalId(req.params.internal_id);
+		if (!response) return formatResponse(res, 404);
+		return formatResponse(res, 200, 'OK', response);
 	} catch (err) {
 		return defaultErrorTreatment(res, err);
 	}
 };
 
-export default productsShowController;
+export default CProductShow;

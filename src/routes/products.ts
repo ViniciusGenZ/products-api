@@ -1,12 +1,12 @@
-import productsIndexController from '@controllers/products';
-import productsShowController from '@controllers/products/show';
-import { productsIndexValidation } from '@validations/products';
-import { productsShowValidation } from '@validations/products/show';
+import CProductsIndex from '@controllers/products';
+import CProductShow from '@controllers/products/show';
+import VProductsIndex from '@validations/products/VProductsIndex';
+import VProductShow from '@validations/products/VProductShow';
 import { Router } from 'express';
 
 const productsRouter = Router();
 
-productsRouter.get('/', productsIndexValidation, productsIndexController);
-productsRouter.get('/:id', productsShowValidation, productsShowController);
+productsRouter.get('/', VProductsIndex, CProductsIndex);
+productsRouter.get('/:internal_id', VProductShow, CProductShow);
 
 export default productsRouter;

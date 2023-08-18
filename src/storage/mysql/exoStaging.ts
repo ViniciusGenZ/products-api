@@ -7,15 +7,16 @@ import { CategoryHasBrands } from '@entities/categoryHasBrands';
 import { Color } from '@entities/color';
 import { Material } from '@entities/material';
 import { Product } from '@entities/product';
-import { ProductDetail } from '@entities/productDetail';
 import { ProductHasBrands } from '@entities/productHasBrands';
 import { ProductHasCategories } from '@entities/productHasCategories';
 import { ProductHasColors } from '@entities/productHasColors';
 import { ProductHasImages } from '@entities/productHasImages';
 import { ProductHasMaterials } from '@entities/productHasMaterials';
 import { ProductImage } from '@entities/productImage';
+import { Detail } from '@entities/details';
+import { ProductHasDetails } from '@entities/productHasDetails';
 
-export const exoStaging = new DataSource({
+const exoStaging = new DataSource({
 	type: 'mysql',
 	host: process.env.MYSQL_DATABASE_HOST,
 	port: Number(process.env.MYSQL_DATABASE_PORT ?? 3306),
@@ -29,12 +30,13 @@ export const exoStaging = new DataSource({
 		Category,
 		CategoryHasBrands,
 		Color,
+		Detail,
 		Material,
 		Product,
-		ProductDetail,
 		ProductHasBrands,
 		ProductHasCategories,
 		ProductHasColors,
+		ProductHasDetails,
 		ProductHasImages,
 		ProductHasMaterials,
 		ProductImage,
@@ -42,3 +44,5 @@ export const exoStaging = new DataSource({
 	migrations: [],
 	subscribers: [],
 });
+
+export default exoStaging;

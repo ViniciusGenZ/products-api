@@ -1,5 +1,5 @@
 import { ProductHasColors } from '@entities/productHasColors';
-import { exoStaging } from '@storage/mysql/exoStaging';
+import exoStaging from '@storage/mysql/exoStaging';
 
 const productHasColorsRepository = exoStaging.getRepository(ProductHasColors);
 

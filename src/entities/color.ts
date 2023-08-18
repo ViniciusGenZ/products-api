@@ -7,8 +7,8 @@ import {
 } from 'typeorm';
 
 import { Base } from './base';
-import { ProductDetail } from './productDetail';
 import { ProductHasColors } from './productHasColors';
+import { ProductHasDetails } from './productHasDetails';
 
 @Entity({ name: 'colors' })
 export class Color extends Base {
@@ -34,10 +34,10 @@ export class Color extends Base {
 	})
 	productHasColors: Array<ProductHasColors>;
 
-	@OneToMany(() => ProductDetail, (x) => x.product)
+	@OneToMany(() => ProductHasDetails, (x) => x.color)
 	@JoinColumn({
 		name: 'id_color',
 		referencedColumnName: 'id_color',
 	})
-	productDetails: Array<ProductDetail>;
+	productHasDetails: Array<ProductHasDetails>;
 }

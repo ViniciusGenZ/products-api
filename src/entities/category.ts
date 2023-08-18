@@ -6,7 +6,7 @@ import {
 	JoinColumn,
 } from 'typeorm';
 import { Base } from './base';
-import { CategoryHasBrands } from './categoryHasBrands';
+import { ProductHasCategories } from './productHasCategories';
 
 @Entity({ name: 'categories' })
 export class Category extends Base {
@@ -34,10 +34,10 @@ export class Category extends Base {
 	@Column({ nullable: true })
 	name_br?: string;
 
-	@OneToMany(() => CategoryHasBrands, (c) => c.category)
+	@OneToMany(() => ProductHasCategories, (c) => c.category)
 	@JoinColumn({
 		name: 'id_category',
 		referencedColumnName: 'id_category',
 	})
-	categoryHasBrands: Array<CategoryHasBrands>;
+	categoryHasBrands: Array<ProductHasCategories>;
 }

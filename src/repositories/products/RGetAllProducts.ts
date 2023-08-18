@@ -1,7 +1,8 @@
 import IOrderByEnum from '@interfaces/IOrderByEnum';
-import productRepository from '@repositories/product';
+import RProducts from './RProducts';
+import { Product } from '@entities/product';
 
-interface props {
+interface IProps {
 	offset: number;
 	limit: number;
 	name?: string;
@@ -9,9 +10,16 @@ interface props {
 	min_price?: number;
 	max_price?: number;
 	order_by?: IOrderByEnum;
+	category_id?: number;
+	brand_id?: number;
 }
 
-async function productsIndexService({
+interface IResponse {
+	count: number;
+	products: Array<Product>;
+}
+
+async function RGetAllProducts({
 	offset,
 	limit,
 	name,
@@ -19,13 +27,15 @@ async function productsIndexService({
 	min_price,
 	max_price,
 	order_by,
-}: props) {
-	const query = productRepository.createQueryBuilder();
+}: // category_id,
+// brand_id,
+IProps): Promise<IResponse> {
+	const query = RProducts.createQueryBuilder();
 	query.skip(offset);
 	query.take(limit);
-	// query.select(
-	// 	'id_product, stock, price_ven, decreto, code_in, internal_id, obs_br, obs_en, obs_py, description_br, description_en, description_py, name_en, name_py, name_br',
-	// );
+	query.select(
+		'id_product, stock, price_ven, decreto, code_in, internal_id, obs_br, obs_en, obs_py, description_br, description_en, description_py, name_en, name_py, name_br',
+	);
 
 	if (id_product) query.andWhere('id_product = :id_product', { id_product });
 	if (name)
@@ -58,7 +68,12 @@ async function productsIndexService({
 		}
 	}
 
-	return query.getMany();
+	await query.relation('productHasCategories').loadMany();
+
+	const products = await query.getMany();
+	const count = await query.getCount();
+
+	return { count, products };
 }
 
-export default productsIndexService;
+export default RGetAllProducts;

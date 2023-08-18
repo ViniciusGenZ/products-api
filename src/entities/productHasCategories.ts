@@ -18,7 +18,7 @@ export class ProductHasCategories extends BaseEntity {
 	})
 	category: Category;
 
-	@ManyToOne(() => Product, (c) => c.productsHasBrands)
+	@ManyToOne(() => Product, (c) => c.productHasCategories)
 	@JoinColumn({
 		name: 'id_product',
 		referencedColumnName: 'id_product',

@@ -32,7 +32,7 @@ module.exports = {
 			'warn',
 			{
 				selector: 'variable',
-				format: ['camelCase', 'snake_case'],
+				format: ['camelCase', 'PascalCase'],
 			},
 		],
 	},

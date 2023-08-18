@@ -8,9 +8,10 @@ import {
 import { Base } from './base';
 import { ProductHasImages } from './productHasImages';
 import { ProductHasBrands } from './productHasBrands';
-import { ProductDetail } from './productDetail';
 import { ProductHasMaterials } from './productHasMaterials';
 import { ProductHasColors } from './productHasColors';
+import { ProductHasDetails } from './productHasDetails';
+import { ProductHasCategories } from './productHasCategories';
 
 @Entity({ name: 'products' })
 export class Product extends Base {
@@ -98,6 +99,13 @@ export class Product extends Base {
 	@Column({ nullable: true })
 	name_br?: string;
 
+	@OneToMany(() => ProductHasCategories, (x) => x.product)
+	@JoinColumn({
+		name: 'id_product',
+		referencedColumnName: 'id_product',
+	})
+	productHasCategories: Array<ProductHasCategories>;
+
 	@OneToMany(() => ProductHasImages, (x) => x.product)
 	@JoinColumn({
 		name: 'id_product',
@@ -112,13 +120,6 @@ export class Product extends Base {
 	})
 	productsHasBrands: Array<ProductHasBrands>;
 
-	@OneToMany(() => ProductDetail, (x) => x.product)
-	@JoinColumn({
-		name: 'id_product',
-		referencedColumnName: 'id_product',
-	})
-	productDetails: Array<ProductDetail>;
-
 	@OneToMany(() => ProductHasMaterials, (x) => x.product)
 	@JoinColumn({
 		name: 'id_product',
@@ -128,8 +129,15 @@ export class Product extends Base {
 
 	@OneToMany(() => ProductHasColors, (x) => x.product)
 	@JoinColumn({
-		name: 'id_color',
-		referencedColumnName: 'id_color',
+		name: 'id_product',
+		referencedColumnName: 'id_product',
 	})
 	productHasColors: Array<ProductHasColors>;
+
+	@OneToMany(() => ProductHasDetails, (x) => x.product)
+	@JoinColumn({
+		name: 'id_product',
+		referencedColumnName: 'id_product',
+	})
+	productHasDetails: Array<ProductHasDetails>;
 }

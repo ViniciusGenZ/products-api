@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { formatResponse } from '../../adapters/formatResponse';
+import formatResponse from '@adapters/formatResponse';
 
-export const healthCheck = async (
+async function healthCheck(
 	_req: Request,
 	res: Response,
 	// eslint-disable-next-line @typescript-eslint/require-await
-) => {
+) {
 	try {
 		return formatResponse(res, 200, 'OK', {
 			health: true,
@@ -15,4 +15,6 @@ export const healthCheck = async (
 			health: false,
 		});
 	}
-};
+}
+
+export default healthCheck;

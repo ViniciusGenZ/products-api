@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import app from '../src/server/app';
-import { exoStaging } from '@storage/mysql/exoStaging';
+import exoStaging from '@storage/mysql/exoStaging';
 
 async function server() {
 	try {
