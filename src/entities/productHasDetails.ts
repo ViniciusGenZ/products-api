@@ -17,7 +17,7 @@ export class ProductHasDetails extends BaseEntity {
 	product: Product;
 
 	@Column({ name: 'id_detail', primary: true })
-	id_details: number;
+	id_detail: number;
 
 	@ManyToOne(() => Detail, (c) => c.productHasDetails)
 	@JoinColumn({

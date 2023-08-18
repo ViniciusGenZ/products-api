@@ -14,8 +14,8 @@ type TypedRequest = Omit<Request, 'query'> & {
 		min_price?: number;
 		max_price?: number;
 		order_by?: IOrderByEnum;
-		category_id?: number;
-		brand_id?: number;
+		id_category?: number;
+		id_brand?: number;
 	};
 };
 
