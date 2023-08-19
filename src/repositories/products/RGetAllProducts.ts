@@ -2,6 +2,7 @@ import { IOrderByEnum } from '@interfaces/IOrderByEnum';
 import RProducts from './RProducts';
 import { Product } from '@entities/product';
 import { ProductHasCategories } from '@entities/productHasCategories';
+import { ProductHasBrands } from '@entities/productHasBrands';
 // import { Category } from '@entities/category';
 // import RProductsHasCategories from '@repositories/productsHasCategories/RProductsHasCategories';
 
@@ -31,7 +32,8 @@ async function RGetAllProducts({
 	max_price,
 	order_by,
 	id_category,
-}: // brand_id,
+	id_brand,
+}:
 IProps): Promise<IResponse> {
 	const query = RProducts.createQueryBuilder('prod');
 	query.skip(offset);
@@ -47,6 +49,15 @@ IProps): Promise<IResponse> {
 			'phc',
 			'prod.id_product = phc.id_product and phc.id_category = :id_category',
 			{ id_category },
+		);
+	}
+
+	if (id_brand) {
+		query.innerJoin(
+			ProductHasBrands,
+			'phb',
+			'prod.id_product = phb.id_product and phb.id_brand = :id_brand',
+			{ id_brand },
 		);
 	}
 	if (id_product)
