@@ -2,10 +2,10 @@
    "name": "the-watcher",
    "version": "1.0.0",
    "description": "",
-   "main": "index.ts",
+   "main": "src/index.ts",
    "scripts": {
       "dev": "ts-node-dev --poll --respawn --files -r tsconfig-paths/register src/index.ts",
-      "start": "node dist",
+      "start": "node dist/src",
       "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s . -o ./dist",
       "lint": "eslint . --ext .ts",
       "lintfix": "eslint . --ext .ts --fix",
