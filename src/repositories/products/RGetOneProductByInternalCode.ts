@@ -9,6 +9,7 @@ import { Color } from '@entities/color';
 import { ProductHasBrands } from '@entities/productHasBrands';
 import { Brand } from '@entities/brand';
 import { Detail } from '@entities/details';
+import { ProductHasDetails } from '@entities/productHasDetails';
 
 async function RGetOneProductByInternalId(
 	internal_id: number,
@@ -66,7 +67,7 @@ async function RGetOneProductByInternalId(
 	);
 	query.leftJoinAndMapMany(
 		'prod.productHasDetails',
-		Detail,
+		ProductHasDetails,
 		'phd',
 		'prod.id_product = phd.id_product',
 	);
