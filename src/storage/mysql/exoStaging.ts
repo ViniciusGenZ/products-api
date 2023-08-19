@@ -15,6 +15,8 @@ import { ProductHasMaterials } from '@entities/productHasMaterials';
 import { ProductImage } from '@entities/productImage';
 import { Detail } from '@entities/details';
 import { ProductHasDetails } from '@entities/productHasDetails';
+import { Currency } from '@entities/currency';
+import { Exchange } from '@entities/exchange';
 
 const exoStaging = new DataSource({
 	type: 'mysql',
@@ -30,7 +32,9 @@ const exoStaging = new DataSource({
 		Category,
 		CategoryHasBrands,
 		Color,
+		Currency,
 		Detail,
+		Exchange,
 		Material,
 		Product,
 		ProductHasBrands,
