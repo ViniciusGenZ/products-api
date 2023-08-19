@@ -7,6 +7,7 @@ const VProductsIndex = celebrate({
 		limit: Joi.number().required().min(1),
 		id_product: Joi.number(),
 		id_category: Joi.number(),
+		id_brand: Joi.number(),
 		name: Joi.string(),
 		min_price: Joi.number(),
 		max_price: Joi.number(),
