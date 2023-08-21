@@ -29,7 +29,7 @@ export class ProductHasDetails extends BaseEntity {
 	})
 	detail: Detail;
 
-	@Column({ name: 'id_color', primary: true })
+	@Column({ name: 'id_color', nullable: true })
 	id_color: number;
 
 	@ManyToOne(() => Color, (x) => x.productHasDetails)
@@ -39,7 +39,7 @@ export class ProductHasDetails extends BaseEntity {
 	})
 	color: Color;
 
-	@Column({ name: 'id_product_image', primary: true })
+	@Column({ name: 'id_product_image', nullable: true })
 	id_product_image: number;
 
 	@ManyToOne(() => ProductImage, (x) => x.productHasDetails)

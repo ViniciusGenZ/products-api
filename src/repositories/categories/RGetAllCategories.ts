@@ -11,15 +11,11 @@ interface IResponse {
 }
 
 async function RGetAllCategories({ name }: IProps): Promise<IResponse> {
-	const query = RCategories.createQueryBuilder();
-
-	if (name)
-		query.andWhere(
-			'name_en like :name or name_py like :name or name_br like :name',
-			{ name: `%${name}%` },
-		);
+	const query = RCategories.createQueryBuilder('cat');
+	query.andWhere('cat.id_parent is null');
+	if (name) query.andWhere('cat.name_py like :name', { name: `%${name}%` });
 	const [categories, count] = await query.getManyAndCount();
-	return { categories, count };
+	return { count, categories };
 }
 
 export default RGetAllCategories;

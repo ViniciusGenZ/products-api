@@ -15,6 +15,15 @@ export class Detail extends Base {
 	id_detail: number;
 
 	@Column({ nullable: true, type: 'text' })
+	name_br?: string;
+
+	@Column({ nullable: true, type: 'text' })
+	name_en?: string;
+
+	@Column({ type: 'text' })
+	name_py?: string;
+
+	@Column({ nullable: true, type: 'text' })
 	description_br?: string;
 
 	@Column({ nullable: true, type: 'text' })
