@@ -44,6 +44,7 @@ async function RGetAllProducts({
 	query.skip(offset);
 	query.take(limit);
 	query.andWhere('prod.status_active = true');
+	query.andWhere('prod.stock > 0');
 	query.leftJoinAndMapMany(
 		'prod.productHasCategories',
 		ProductHasCategories,
@@ -104,14 +105,9 @@ async function RGetAllProducts({
 	if (id_product)
 		query.andWhere('prod.id_product = :id_product', { id_product });
 	if (name)
-		query.andWhere(
-			'prod.name_en like :name_en or prod.name_py like :name_py or prod.name_br like :name_br',
-			{
-				name_en: `%${name}%`,
-				name_py: `%${name}%`,
-				name_br: `%${name}%`,
-			},
-		);
+		query.andWhere('prod.name_py like :name_py', {
+			name_py: `%${name}%`,
+		});
 	if (min_price) query.andWhere('prod.price_ven >= :min_price', { min_price });
 	if (max_price) query.andWhere('prod.price_ven <= :max_price', { max_price });
 

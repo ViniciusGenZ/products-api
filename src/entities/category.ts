@@ -4,6 +4,7 @@ import {
 	Column,
 	OneToMany,
 	JoinColumn,
+	ManyToOne,
 } from 'typeorm';
 import { Base } from './base';
 import { ProductHasCategories } from './productHasCategories';
@@ -12,6 +13,9 @@ import { ProductHasCategories } from './productHasCategories';
 export class Category extends Base {
 	@PrimaryGeneratedColumn()
 	id_category: number;
+
+	@Column({ nullable: true })
+	id_parent: number;
 
 	@Column({ nullable: true })
 	internal_code?: number;
@@ -40,4 +44,12 @@ export class Category extends Base {
 		referencedColumnName: 'id_category',
 	})
 	categoryHasBrands: Array<ProductHasCategories>;
+
+	@ManyToOne(() => Category, (c) => c.parent)
+	@JoinColumn({ name: 'id_parent', referencedColumnName: 'id_category' })
+	parent: ProductHasCategories;
+
+	@OneToMany(() => Category, (c) => c.children)
+	@JoinColumn({ name: 'id_category', referencedColumnName: 'id_parent' })
+	children: Array<ProductHasCategories>;
 }
