@@ -8,12 +8,12 @@ export class ProductHasBrands extends BaseEntity {
 	@Column({ name: 'id_product', primary: true })
 	id_product: number;
 
-	@Column({ name: 'id_brands', primary: true })
+	@Column({ name: 'id_brand', primary: true })
 	id_brand: number;
 
 	@ManyToOne(() => Brand, (c) => c.categoryHasBrands)
 	@JoinColumn({
-		name: 'id_brands',
+		name: 'id_brand',
 		referencedColumnName: 'id_brand',
 	})
 	brand: Brand;
