@@ -30,18 +30,6 @@ async function RGetOneProductByInternalId(
 		'phc.id_category = cat.id_category',
 	);
 	query.leftJoinAndMapMany(
-		'prod.productHasBrands',
-		ProductHasBrands,
-		'phb',
-		'prod.id_product = phb.id_product',
-	);
-	query.leftJoinAndMapMany(
-		'prod.productHasBrands.brand',
-		Brand,
-		'b',
-		'phb.id_brand = b.id_brand',
-	);
-	query.leftJoinAndMapMany(
 		'prod.productHasImages',
 		ProductHasImages,
 		'phi',
@@ -56,14 +44,26 @@ async function RGetOneProductByInternalId(
 	query.leftJoinAndMapMany(
 		'prod.productHasColors',
 		ProductHasColors,
-		'phcl',
-		'prod.id_product = phcl.id_product',
+		'phc2',
+		'prod.id_product = phc2.id_product',
 	);
 	query.leftJoinAndMapMany(
 		'prod.productHasColors.color',
 		Color,
 		'c',
-		'phcl.id_color = c.id_color',
+		'phc2.id_color = c.id_color',
+	);
+	query.leftJoinAndMapMany(
+		'prod.productHasBrands',
+		ProductHasBrands,
+		'phb',
+		'prod.id_product = phb.id_product',
+	);
+	query.leftJoinAndMapMany(
+		'prod.productHasBrands.brand',
+		Brand,
+		'b',
+		'phb.id_brand = b.id_brand',
 	);
 	query.leftJoinAndMapMany(
 		'prod.productHasDetails',
@@ -72,7 +72,7 @@ async function RGetOneProductByInternalId(
 		'prod.id_product = phd.id_product',
 	);
 	query.leftJoinAndMapMany(
-		'prod.productHasDetails.detail',
+		'phd.detail',
 		Detail,
 		'd',
 		'phd.id_detail = d.id_detail',
