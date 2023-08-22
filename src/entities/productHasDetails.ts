@@ -9,8 +9,14 @@ export class ProductHasDetails extends BaseEntity {
 	@Column({ name: 'id_product', primary: true })
 	id_product: number;
 
-	@Column()
-	value: string;
+	@Column({ nullable: true, type: 'text' })
+	name_br?: string;
+
+	@Column({ nullable: true, type: 'text' })
+	name_en?: string;
+
+	@Column({ type: 'text' })
+	name_py: string;
 
 	@ManyToOne(() => Product, (c) => c.productHasDetails)
 	@JoinColumn({

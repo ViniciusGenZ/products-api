@@ -9,6 +9,8 @@ import { Color } from '@entities/color';
 import { ProductHasColors } from '@entities/productHasColors';
 import { Brand } from '@entities/brand';
 import { ProductHasBrands } from '@entities/productHasBrands';
+import { ProductHasDetails } from '@entities/productHasDetails';
+import { Detail } from '@entities/details';
 
 interface IProps {
 	offset: number;
@@ -90,6 +92,18 @@ async function RGetAllProducts({
 		Brand,
 		'b',
 		'phb.id_brand = b.id_brand',
+	);
+	query.leftJoinAndMapMany(
+		'prod.productHasDetails',
+		ProductHasDetails,
+		'phd',
+		'prod.id_product = phd.id_product',
+	);
+	query.leftJoinAndMapMany(
+		'phd.detail',
+		Detail,
+		'd',
+		'phd.id_detail = d.id_detail',
 	);
 
 	if (id_category)
