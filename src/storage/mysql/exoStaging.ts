@@ -17,7 +17,6 @@ import { Detail } from '@entities/details';
 import { ProductHasDetails } from '@entities/productHasDetails';
 import { Currency } from '@entities/currency';
 import { Exchange } from '@entities/exchange';
-import { ProductsView } from '@entities/productsView';
 
 const exoStaging = new DataSource({
 	type: 'mysql',
@@ -45,7 +44,6 @@ const exoStaging = new DataSource({
 		ProductHasImages,
 		ProductHasMaterials,
 		ProductImage,
-		ProductsView,
 	],
 	migrations: [],
 	subscribers: [],
