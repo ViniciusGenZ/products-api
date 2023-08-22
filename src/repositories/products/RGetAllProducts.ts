@@ -9,8 +9,6 @@ import { Color } from '@entities/color';
 import { ProductHasColors } from '@entities/productHasColors';
 import { Brand } from '@entities/brand';
 import { ProductHasBrands } from '@entities/productHasBrands';
-// import { Category } from '@entities/category';
-// import RProductsHasCategories from '@repositories/productsHasCategories/RProductsHasCategories';
 
 interface IProps {
 	offset: number;
@@ -94,16 +92,14 @@ async function RGetAllProducts({
 		'phb.id_brand = b.id_brand',
 	);
 
-	if (id_category) {
+	if (id_category)
 		query.andWhere('phc.id_category = :id_category', { id_category });
-	}
 
-	if (id_brand) {
-		query.andWhere('phb.id_brand = :id_brand', { id_brand });
-	}
+	if (id_brand) query.andWhere('phb.id_brand = :id_brand', { id_brand });
 
 	if (id_product)
 		query.andWhere('prod.id_product = :id_product', { id_product });
+
 	if (name)
 		query.andWhere('prod.name_py like :name_py', {
 			name_py: `%${name}%`,
