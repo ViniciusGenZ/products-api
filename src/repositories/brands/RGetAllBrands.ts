@@ -11,13 +11,11 @@ interface IResponse {
 }
 
 async function RGetAllBrands({ name }: IProps): Promise<IResponse> {
-	const query = RBrands.createQueryBuilder();
+	const query = RBrands.createQueryBuilder('b');
+	query.orderBy('b.name_py', 'ASC');
 
-	if (name)
-		query.andWhere(
-			'name_en like :name or name_py like :name or name_br like :name',
-			{ name: `%${name}%` },
-		);
+	if (name) query.andWhere('b.name_py like :name', { name: `%${name}%` });
+
 	const [brands, count] = await query.getManyAndCount();
 	return { brands, count };
 }
