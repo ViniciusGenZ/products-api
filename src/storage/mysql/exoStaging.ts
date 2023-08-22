@@ -17,6 +17,7 @@ import { Detail } from '@entities/details';
 import { ProductHasDetails } from '@entities/productHasDetails';
 import { Currency } from '@entities/currency';
 import { Exchange } from '@entities/exchange';
+import { ProductsView } from '@entities/productsView';
 
 const exoStaging = new DataSource({
 	type: 'mysql',
@@ -25,7 +26,7 @@ const exoStaging = new DataSource({
 	username: process.env.MYSQL_DATABASE_USER,
 	database: process.env.MYSQL_DATABASE_DB,
 	password: process.env.MYSQL_DATABASE_PASSWORD,
-	synchronize: false,
+	synchronize: true,
 	logging: false,
 	entities: [
 		Brand,
@@ -44,6 +45,7 @@ const exoStaging = new DataSource({
 		ProductHasImages,
 		ProductHasMaterials,
 		ProductImage,
+		ProductsView,
 	],
 	migrations: [],
 	subscribers: [],
