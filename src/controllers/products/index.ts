@@ -22,7 +22,6 @@ type TypedRequest = Omit<Request, 'query'> & {
 const CProductsIndex = async (req: TypedRequest, res: Response) => {
 	try {
 		const response = await SGetAllProducts(req.query);
-		if (response.count == 0) return formatResponse(res, 404);
 		return formatResponse(res, 200, 'OK', response);
 	} catch (err) {
 		return defaultErrorTreatment(res, err);
