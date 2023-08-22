@@ -14,6 +14,9 @@ export class Detail extends Base {
 	@PrimaryGeneratedColumn()
 	id_detail: number;
 
+	@Column({ nullable: true })
+	internal_id?: number;
+
 	@Column({ nullable: true, type: 'text' })
 	name_br?: string;
 

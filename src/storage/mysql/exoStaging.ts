@@ -26,7 +26,7 @@ const exoStaging = new DataSource({
 	username: process.env.MYSQL_DATABASE_USER,
 	database: process.env.MYSQL_DATABASE_DB,
 	password: process.env.MYSQL_DATABASE_PASSWORD,
-	synchronize: true,
+	synchronize: false,
 	logging: false,
 	entities: [
 		Brand,
