@@ -1,7 +1,7 @@
-import getOneById from '@repositories/products/RGetOneProductByInternalCode';
+import RGetOneProductById from '@repositories/products/RGetOneProductById';
 
 async function SGetOneProductById(id: number) {
-	return getOneById(id);
+	return RGetOneProductById(id);
 }
 
 export default SGetOneProductById;

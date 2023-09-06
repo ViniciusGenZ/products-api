@@ -55,7 +55,7 @@ async function RGetAllProducts({
 		'prod.productHasCategories.category',
 		Category,
 		'cat',
-		'phc.id_category = cat.id_category',
+		'phc.id_category = cat.id_category and cat.status_active = true',
 	);
 	query.leftJoinAndMapMany(
 		'prod.productHasImages',
@@ -67,7 +67,7 @@ async function RGetAllProducts({
 		'prod.productHasImages.image',
 		ProductImage,
 		'ima',
-		'phi.id_product_image = ima.id_product_image',
+		'phi.id_product_image = ima.id_product_image and ima.status_active = true',
 	);
 	query.leftJoinAndMapMany(
 		'prod.productHasColors',
@@ -79,7 +79,7 @@ async function RGetAllProducts({
 		'prod.productHasColors.color',
 		Color,
 		'c',
-		'phc2.id_color = c.id_color',
+		'phc2.id_color = c.id_color and c.status_active = true',
 	);
 	query.leftJoinAndMapMany(
 		'prod.productHasBrands',
@@ -91,7 +91,7 @@ async function RGetAllProducts({
 		'prod.productHasBrands.brand',
 		Brand,
 		'b',
-		'phb.id_brand = b.id_brand',
+		'phb.id_brand = b.id_brand and b.status_active = true',
 	);
 	query.leftJoinAndMapMany(
 		'prod.productHasDetails',
@@ -103,7 +103,7 @@ async function RGetAllProducts({
 		'phd.detail',
 		Detail,
 		'd',
-		'phd.id_detail = d.id_detail',
+		'phd.id_detail = d.id_detail and d.status_active = true',
 	);
 
 	if (id_category)

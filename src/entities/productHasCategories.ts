@@ -11,7 +11,7 @@ export class ProductHasCategories extends BaseEntity {
 	@Column({ name: 'id_category', primary: true })
 	id_category: number;
 
-	@ManyToOne(() => Category, (c) => c.categoryHasBrands)
+	@ManyToOne(() => Category, (c) => c.productHasCategories)
 	@JoinColumn({
 		name: 'id_category',
 		referencedColumnName: 'id_category',

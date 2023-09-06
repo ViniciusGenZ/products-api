@@ -52,4 +52,11 @@ export class Category extends Base {
 	@OneToMany(() => Category, (c) => c.children)
 	@JoinColumn({ name: 'id_category', referencedColumnName: 'id_parent' })
 	children: Array<ProductHasCategories>;
+
+	@OneToMany(() => ProductHasCategories, (x) => x.category)
+	@JoinColumn({
+		name: 'id_category',
+		referencedColumnName: 'id_category',
+	})
+	productHasCategories: Array<ProductHasCategories>;
 }

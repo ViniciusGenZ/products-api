@@ -3,7 +3,7 @@ import Joi from 'joi';
 
 const VProductShow = celebrate({
 	[Segments.PARAMS]: Joi.object().keys({
-		internal_id: Joi.number().required().min(0),
+		id_product: Joi.number().required().min(0),
 	}),
 });
 
