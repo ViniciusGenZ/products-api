@@ -11,22 +11,120 @@ import { Brand } from '@entities/brand';
 import { ProductHasBrands } from '@entities/productHasBrands';
 import { ProductHasDetails } from '@entities/productHasDetails';
 import { Detail } from '@entities/details';
-
-interface IProps {
-	offset: number;
-	limit: number;
-	name?: string;
-	id_product?: number;
-	min_price?: number;
-	max_price?: number;
-	order_by?: IOrderByEnum;
-	id_category?: number;
-	id_brand?: number;
-}
+import { FilterProperties, FilterProps } from '@interfaces/IProductFilters';
 
 interface IResponse {
 	count: number;
 	products: Array<Product>;
+}
+
+function generateQuery(
+	alias: string,
+	{
+		name,
+		id_product,
+		min_price,
+		max_price,
+		id_category,
+		id_brand,
+	}: FilterProps,
+) {
+	const query = RProducts.createQueryBuilder(alias);
+	query.andWhere(`${alias}.status_active = true`);
+	query.andWhere(`${alias}.stock > 0`);
+	query.leftJoinAndMapMany(
+		`${alias}.productHasCategories`,
+		ProductHasCategories,
+		`${alias}_phc`,
+		`${alias}.id_product = ${alias}_phc.id_product`,
+	);
+	query.leftJoinAndMapMany(
+		`${alias}.productHasCategories.category`,
+		Category,
+		`${alias}_cat`,
+		`${alias}_phc.id_category = ${alias}_cat.id_category and ${alias}_cat.status_active = true`,
+	);
+	query.leftJoinAndMapMany(
+		`${alias}.productHasImages`,
+		ProductHasImages,
+		`${alias}_phi`,
+		`${alias}.id_product = ${alias}_phi.id_product`,
+	);
+	query.leftJoinAndMapMany(
+		`${alias}.productHasImages.image`,
+		ProductImage,
+		`${alias}_ima`,
+		`${alias}_phi.id_product_image = ${alias}_ima.id_product_image and ${alias}_ima.status_active = true`,
+	);
+	query.leftJoinAndMapMany(
+		`${alias}.productHasColors`,
+		ProductHasColors,
+		`${alias}_phc2`,
+		`${alias}.id_product = ${alias}_phc2.id_product`,
+	);
+	query.leftJoinAndMapMany(
+		`${alias}.productHasColors.color`,
+		Color,
+		`${alias}_c`,
+		`${alias}_phc2.id_color = ${alias}_c.id_color and ${alias}_c.status_active = true`,
+	);
+	query.leftJoinAndMapMany(
+		`${alias}.productHasBrands`,
+		ProductHasBrands,
+		`${alias}_phb`,
+		`${alias}.id_product = ${alias}_phb.id_product`,
+	);
+	query.leftJoinAndMapMany(
+		`${alias}.productHasBrands.brand`,
+		Brand,
+		`${alias}_b`,
+		`${alias}_phb.id_brand = ${alias}_b.id_brand and ${alias}_b.status_active = true`,
+	);
+	query.leftJoinAndMapMany(
+		`${alias}.productHasDetails`,
+		ProductHasDetails,
+		`${alias}_phd`,
+		`${alias}.id_product = ${alias}_phd.id_product`,
+	);
+	query.leftJoinAndMapMany(
+		`${alias}_phd.detail`,
+		Detail,
+		`${alias}_d`,
+		`${alias}_phd.id_detail = ${alias}_d.id_detail and ${alias}_d.status_active = true`,
+	);
+	if (id_category)
+		query.andWhere(
+			`${alias}_phc.id_category ${
+				Array.isArray(id_category) ? `in (:id_category)` : `= :id_category`
+			}`,
+			{ id_category },
+		);
+
+	if (id_brand)
+		query.andWhere(
+			`${alias}_phb.id_brand ${
+				Array.isArray(id_brand) ? `in (:id_brand)` : `= :id_brand`
+			} `,
+			{ id_brand },
+		);
+
+	if (id_product)
+		query.andWhere(
+			`${alias}.id_product ${
+				Array.isArray(id_product) ? `in (:id_product)` : `= :id_product`
+			}`,
+			{ id_product },
+		);
+
+	if (name)
+		query.andWhere(`${alias}.name_py like :name_py`, {
+			name_py: `%${name}%`,
+		});
+	if (min_price)
+		query.andWhere(`${alias}.price_ven >= :min_price`, { min_price });
+	if (max_price)
+		query.andWhere(`${alias}.price_ven <= :max_price`, { max_price });
+	return query;
 }
 
 async function RGetAllProducts({
@@ -39,87 +137,26 @@ async function RGetAllProducts({
 	order_by,
 	id_category,
 	id_brand,
-}: IProps): Promise<IResponse> {
-	const query = RProducts.createQueryBuilder('prod');
+	exclude,
+}: FilterProperties): Promise<IResponse> {
+	const query = generateQuery('prod', {
+		name,
+		id_product,
+		min_price,
+		max_price,
+		id_category,
+		id_brand,
+	});
 	query.skip(offset);
 	query.take(limit);
-	query.andWhere('prod.status_active = true');
-	query.andWhere('prod.stock > 0');
-	query.leftJoinAndMapMany(
-		'prod.productHasCategories',
-		ProductHasCategories,
-		'phc',
-		'prod.id_product = phc.id_product',
-	);
-	query.leftJoinAndMapMany(
-		'prod.productHasCategories.category',
-		Category,
-		'cat',
-		'phc.id_category = cat.id_category and cat.status_active = true',
-	);
-	query.leftJoinAndMapMany(
-		'prod.productHasImages',
-		ProductHasImages,
-		'phi',
-		'prod.id_product = phi.id_product',
-	);
-	query.leftJoinAndMapMany(
-		'prod.productHasImages.image',
-		ProductImage,
-		'ima',
-		'phi.id_product_image = ima.id_product_image and ima.status_active = true',
-	);
-	query.leftJoinAndMapMany(
-		'prod.productHasColors',
-		ProductHasColors,
-		'phc2',
-		'prod.id_product = phc2.id_product',
-	);
-	query.leftJoinAndMapMany(
-		'prod.productHasColors.color',
-		Color,
-		'c',
-		'phc2.id_color = c.id_color and c.status_active = true',
-	);
-	query.leftJoinAndMapMany(
-		'prod.productHasBrands',
-		ProductHasBrands,
-		'phb',
-		'prod.id_product = phb.id_product',
-	);
-	query.leftJoinAndMapMany(
-		'prod.productHasBrands.brand',
-		Brand,
-		'b',
-		'phb.id_brand = b.id_brand and b.status_active = true',
-	);
-	query.leftJoinAndMapMany(
-		'prod.productHasDetails',
-		ProductHasDetails,
-		'phd',
-		'prod.id_product = phd.id_product',
-	);
-	query.leftJoinAndMapMany(
-		'phd.detail',
-		Detail,
-		'd',
-		'phd.id_detail = d.id_detail and d.status_active = true',
-	);
 
-	if (id_category)
-		query.andWhere('phc.id_category = :id_category', { id_category });
-
-	if (id_brand) query.andWhere('phb.id_brand = :id_brand', { id_brand });
-
-	if (id_product)
-		query.andWhere('prod.id_product = :id_product', { id_product });
-
-	if (name)
-		query.andWhere('prod.name_py like :name_py', {
-			name_py: `%${name}%`,
-		});
-	if (min_price) query.andWhere('prod.price_ven >= :min_price', { min_price });
-	if (max_price) query.andWhere('prod.price_ven <= :max_price', { max_price });
+	if (exclude) {
+		const subquery = await generateQuery('sub', exclude)
+			.select('sub.id_product')
+			.execute();
+		const ids = subquery.map((item: { id_product: number }) => item.id_product);
+		query.andWhere(`prod.id_product not in (:ids)`, { ids });
+	}
 
 	if (order_by) {
 		switch (order_by) {
