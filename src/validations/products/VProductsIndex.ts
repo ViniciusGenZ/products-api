@@ -14,7 +14,7 @@ const filter = {
 		Joi.number(),
 		Joi.array().items(Joi.number()),
 	),
-	name: Joi.string(),
+	name: Joi.alternatives().try(Joi.string(), Joi.array().items(Joi.string())),
 	min_price: Joi.number(),
 	max_price: Joi.number(),
 };

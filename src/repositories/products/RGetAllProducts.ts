@@ -116,10 +116,20 @@ function generateQuery(
 			{ id_product },
 		);
 
-	if (name)
-		query.andWhere(`${alias}.name_py like :name_py`, {
-			name_py: `%${name}%`,
-		});
+	if (name) {
+		if (Array.isArray(name)) {
+			const f = name.join('|');
+			console.log(f);
+			query.andWhere(`${alias}.name_py RLIKE  :name_py`, {
+				name_py: `${f}`,
+			});
+		} else {
+			query.andWhere(`${alias}.name_py like :name_py`, {
+				name_py: `%${name}%`,
+			});
+		}
+	}
+
 	if (min_price)
 		query.andWhere(`${alias}.price_ven >= :min_price`, { min_price });
 	if (max_price)
