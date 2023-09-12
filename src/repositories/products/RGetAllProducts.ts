@@ -154,10 +154,12 @@ async function RGetAllProducts({
 		const subquery = await generateQuery('sub', exclude)
 			.select('sub.id_product')
 			.execute();
-		const ids = subquery.map(
+		const ids: Array<number> = subquery.map(
 			(item: { sub_id_product: number }) => item.sub_id_product,
 		);
-		query.andWhere(`prod.id_product not in (:ids)`, { ids });
+		console.log(ids);
+		if (ids.length > 0)
+			query.andWhere(`prod.id_product not in (:ids)`, { ids });
 	}
 
 	if (order_by) {
