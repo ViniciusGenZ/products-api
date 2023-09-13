@@ -6,6 +6,10 @@ const filter = {
 		Joi.number(),
 		Joi.array().items(Joi.number()),
 	),
+	internal_id: Joi.alternatives().try(
+		Joi.number(),
+		Joi.array().items(Joi.number()),
+	),
 	id_category: Joi.alternatives().try(
 		Joi.number(),
 		Joi.array().items(Joi.number()),

@@ -27,6 +27,7 @@ function generateQuery(
 		max_price,
 		id_category,
 		id_brand,
+		internal_id,
 	}: FilterProps,
 ) {
 	const query = RProducts.createQueryBuilder(alias);
@@ -116,6 +117,14 @@ function generateQuery(
 			{ id_product },
 		);
 
+	if (internal_id)
+		query.andWhere(
+			`${alias}.internal_id ${
+				Array.isArray(internal_id) ? `in (:internal_id)` : `= :internal_id`
+			}`,
+			{ internal_id },
+		);
+
 	if (name) {
 		if (Array.isArray(name)) {
 			const f = name.join('|');
@@ -147,6 +156,7 @@ async function RGetAllProducts({
 	order_by,
 	id_category,
 	id_brand,
+	internal_id,
 	exclude,
 }: FilterProperties): Promise<IResponse> {
 	const query = generateQuery('prod', {
@@ -156,6 +166,7 @@ async function RGetAllProducts({
 		max_price,
 		id_category,
 		id_brand,
+		internal_id,
 	});
 	query.skip(offset);
 	query.take(limit);

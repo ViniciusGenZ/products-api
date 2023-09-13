@@ -49,7 +49,7 @@ export class Product extends Base {
 	state_pre_product?: boolean;
 
 	@Column({ nullable: true })
-	internal_id?: string;
+	internal_id?: number;
 
 	@Column({ nullable: true })
 	model?: string;
