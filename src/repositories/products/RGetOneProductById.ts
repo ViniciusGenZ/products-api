@@ -10,7 +10,7 @@ import { ProductImage } from '@entities/productImage';
 async function RGetOneProductById(id: number): Promise<Product | null> {
 	const query = RProducts.createQueryBuilder('prod');
 	query.andWhere('prod.status_active = true');
-	query.andWhere('prod.id_product = :id', { id });
+	query.andWhere('prod.internal_id = :id', { id });
 	query.leftJoinAndMapMany(
 		'prod.productHasCategories',
 		ProductHasCategories,
