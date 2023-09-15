@@ -1,6 +1,6 @@
 import { IOrderByEnum } from './IOrderByEnum';
 
-export type FilterProps = {
+export type IProductFilterProps = {
 	name?: string | Array<string>;
 	id_product?: number | Array<number>;
 	id_category?: number | Array<number>;
@@ -11,8 +11,8 @@ export type FilterProps = {
 	order_by?: IOrderByEnum;
 };
 
-export interface FilterProperties extends FilterProps {
+export interface IProductFilter extends IProductFilterProps {
 	offset: number;
 	limit: number;
-	exclude: FilterProps;
+	exclude?: IProductFilterProps;
 }

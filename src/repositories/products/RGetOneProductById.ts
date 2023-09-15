@@ -1,13 +1,13 @@
 import RProducts from './RProducts';
 import { ProductHasCategories } from '@entities/productHasCategories';
-import { Product } from '@entities/product';
 import { Category } from '@entities/category';
 import { Color } from '@entities/color';
 import { ProductHasColors } from '@entities/productHasColors';
 import { ProductHasImages } from '@entities/productHasImages';
 import { ProductImage } from '@entities/productImage';
+import { IProduct } from '@interfaces/IProduct';
 
-async function RGetOneProductById(id: number): Promise<Product | null> {
+async function RGetOneProductById(id: number): Promise<IProduct | null> {
 	const query = RProducts.createQueryBuilder('prod');
 	query.andWhere('prod.status_active = true');
 	query.andWhere('prod.internal_id = :id', { id });
@@ -48,7 +48,7 @@ async function RGetOneProductById(id: number): Promise<Product | null> {
 		'phc2.id_color = c.id_color',
 	);
 	const product = await query.getOne();
-	return product;
+	return product as unknown as IProduct;
 }
 
 export default RGetOneProductById;

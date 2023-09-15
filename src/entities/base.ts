@@ -16,15 +16,15 @@ export class Base extends BaseEntity {
 	@Column({ nullable: true })
 	updated_by: number;
 
-	@Column({ nullable: true })
-	deleted_by: number;
+	@Column({ type: 'int', nullable: true })
+	deleted_by: number | null;
 
 	@CreateDateColumn()
-	created_at: number;
+	created_at: Date;
 
 	@UpdateDateColumn()
-	updated_at: number;
+	updated_at: Date;
 
 	@DeleteDateColumn()
-	deleted_at: number;
+	deleted_at: Date | null;
 }

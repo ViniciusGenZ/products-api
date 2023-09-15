@@ -41,6 +41,9 @@
          "@adapters/*": [
             "src/adapters/*"
          ],
+         "@contexts/*": [
+            "src/contexts/*"
+         ],
          "@controllers/*": [
             "src/controllers/*"
          ],
@@ -49,6 +52,9 @@
          ],
          "@interfaces/*": [
             "src/interfaces/*"
+         ],
+         "@middlewares/*": [
+            "src/middlewares/*"
          ],
          "@errors/*": [
             "src/errors/*"
