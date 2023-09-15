@@ -44,7 +44,7 @@ export interface IProduct extends IBase {
 export interface IPublicProduct extends IBase {
 	id_product: number;
 	stock: number;
-	precio_turista: number;
+	price: number;
 	decreto: boolean;
 	bar_code?: number;
 	code_in?: number;
