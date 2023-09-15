@@ -7,6 +7,6 @@ import { Router } from 'express';
 const productsRouter = Router();
 
 productsRouter.get('/', VProductsIndex, CProductsIndex);
-productsRouter.get('/:id_product', VProductShow, CProductShow);
+productsRouter.get('/:internal_id', VProductShow, CProductShow);
 
 export default productsRouter;
