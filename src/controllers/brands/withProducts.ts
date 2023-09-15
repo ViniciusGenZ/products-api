@@ -2,20 +2,20 @@ import { Request, Response } from 'express';
 import { Query } from 'express-serve-static-core';
 import formatResponse from '@adapters/formatResponse';
 import defaultErrorTreatment from '@errors/defaultErrorTreatment';
-import SGetAllProducts from '@services/products/SGetAllProducts';
 import { IProductFilter } from '@interfaces/IProductFilters';
+import SGetAllBrandsWithProducts from '@services/brands/SProductsGroupedByBrands';
 
 type TypedRequest = Omit<Request, 'query'> & {
 	query: Query & IProductFilter;
 };
 
-const CProductsIndex = async (req: TypedRequest, res: Response) => {
+const CBrandsWithProducts = async (req: TypedRequest, res: Response) => {
 	try {
-		const response = await SGetAllProducts(req.query);
+		const response = await SGetAllBrandsWithProducts(req.query);
 		return formatResponse(res, 200, 'OK', response);
 	} catch (err) {
 		return defaultErrorTreatment(res, err);
 	}
 };
 
-export default CProductsIndex;
+export default CBrandsWithProducts;

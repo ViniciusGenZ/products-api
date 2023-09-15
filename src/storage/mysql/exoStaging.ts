@@ -1,5 +1,3 @@
-import 'reflect-metadata';
-import 'dotenv/config';
 import { DataSource } from 'typeorm';
 import { Brand } from '@entities/brand';
 import { Category } from '@entities/category';

@@ -1,6 +1,5 @@
 import RProducts from './RProducts';
 import { ProductHasCategories } from '@entities/productHasCategories';
-import { Product } from '@entities/product';
 import { ProductHasImages } from '@entities/productHasImages';
 import { ProductHasColors } from '@entities/productHasColors';
 import { Category } from '@entities/category';
@@ -10,10 +9,11 @@ import { ProductHasBrands } from '@entities/productHasBrands';
 import { Brand } from '@entities/brand';
 import { Detail } from '@entities/details';
 import { ProductHasDetails } from '@entities/productHasDetails';
+import { IProduct } from '@interfaces/IProduct';
 
 async function RGetOneProductByInternalId(
 	internal_id: number,
-): Promise<Product | null> {
+): Promise<IProduct | null> {
 	const query = RProducts.createQueryBuilder('prod');
 	query.andWhere('prod.status_active = true');
 	query.andWhere('prod.internal_id = :internal_id', { internal_id });
@@ -79,7 +79,7 @@ async function RGetOneProductByInternalId(
 	);
 	const product = await query.getOne();
 
-	return product;
+	return product as unknown as IProduct;
 }
 
 export default RGetOneProductByInternalId;

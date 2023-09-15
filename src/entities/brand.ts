@@ -56,5 +56,5 @@ export class Brand extends Base {
 		name: 'id_brand',
 		referencedColumnName: 'id_brand',
 	})
-	productsHasBrands: Array<ProductHasBrands>;
+	productHasBrands: Array<ProductHasBrands>;
 }

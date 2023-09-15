@@ -1,6 +1,5 @@
 import { IOrderByEnum } from '@interfaces/IOrderByEnum';
 import RProducts from './RProducts';
-import { Product } from '@entities/product';
 import { ProductHasCategories } from '@entities/productHasCategories';
 import { Category } from '@entities/category';
 import { ProductImage } from '@entities/productImage';
@@ -11,11 +10,15 @@ import { Brand } from '@entities/brand';
 import { ProductHasBrands } from '@entities/productHasBrands';
 import { ProductHasDetails } from '@entities/productHasDetails';
 import { Detail } from '@entities/details';
-import { FilterProperties, FilterProps } from '@interfaces/IProductFilters';
+import {
+	IProductFilter,
+	IProductFilterProps,
+} from '@interfaces/IProductFilters';
+import { IProduct } from '@interfaces/IProduct';
 
 interface IResponse {
 	count: number;
-	products: Array<Product>;
+	products: Array<IProduct>;
 }
 
 function generateQuery(
@@ -28,7 +31,7 @@ function generateQuery(
 		id_category,
 		id_brand,
 		internal_id,
-	}: FilterProps,
+	}: IProductFilterProps,
 ) {
 	const query = RProducts.createQueryBuilder(alias);
 	query.andWhere(`${alias}.status_active = true`);
@@ -158,7 +161,7 @@ async function RGetAllProducts({
 	id_brand,
 	internal_id,
 	exclude,
-}: FilterProperties): Promise<IResponse> {
+}: IProductFilter): Promise<IResponse> {
 	const query = generateQuery('prod', {
 		name,
 		id_product,
@@ -201,9 +204,9 @@ async function RGetAllProducts({
 		}
 	}
 
-	const [products, count] = await query.getManyAndCount();
+	const [p, count] = await query.getManyAndCount();
 
-	return { count, products };
+	return { count, products: p.map((item) => item as unknown as IProduct) };
 }
 
 export default RGetAllProducts;

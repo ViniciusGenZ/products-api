@@ -21,17 +21,17 @@ export class Product extends Base {
 	@Column({ default: 0 })
 	stock: number;
 
-	@Column({ type: 'decimal' })
-	price_ven: number;
+	@Column({ type: 'decimal', precision: 10, scale: 2 })
+	precio_atacado: number;
 
-	@Column({ type: 'decimal' })
-	price_atac: number;
+	@Column({ type: 'decimal', precision: 10, scale: 2 })
+	precio_turista: number;
 
-	@Column({ type: 'decimal' })
-	price_web: number;
+	@Column({ type: 'decimal', precision: 10, scale: 2 })
+	precio_web: number;
 
-	@Column({ type: 'decimal' })
-	price_min: number;
+	@Column({ type: 'decimal', precision: 10, scale: 2 })
+	precio_mayorista: number;
 
 	@Column()
 	decreto: boolean;
@@ -118,7 +118,7 @@ export class Product extends Base {
 		name: 'id_product',
 		referencedColumnName: 'id_product',
 	})
-	productsHasBrands: Array<ProductHasBrands>;
+	productHasBrands: Array<ProductHasBrands>;
 
 	@OneToMany(() => ProductHasMaterials, (x) => x.product)
 	@JoinColumn({
