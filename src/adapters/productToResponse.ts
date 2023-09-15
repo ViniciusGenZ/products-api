@@ -2,7 +2,7 @@ import { IProduct, IPublicProduct } from '@interfaces/IProduct';
 import imageProductsRepository from '@repositories/imageProduct';
 
 export function productToPublicResponse(data: IProduct): IPublicProduct {
-	const temp = {
+	const temp: IPublicProduct = {
 		status_active: data.status_active,
 		created_by: data.created_by,
 		updated_by: data.updated_by,
@@ -12,7 +12,7 @@ export function productToPublicResponse(data: IProduct): IPublicProduct {
 		deleted_at: data.deleted_at,
 		id_product: data.id_product,
 		stock: data.stock,
-		precio_turista: data.precio_turista,
+		price: data.precio_turista,
 		decreto: data.decreto,
 		bar_code: data.bar_code,
 		code_in: data.code_in,

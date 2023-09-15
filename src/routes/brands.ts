@@ -6,6 +6,6 @@ import { Router } from 'express';
 const brandsRouter = Router();
 
 brandsRouter.get('/', VBrandsIndex, CBrandsIndex);
-brandsRouter.get('/withProducts', CBrandsWithProducts);
+brandsRouter.get('/products', CBrandsWithProducts);
 
 export default brandsRouter;
