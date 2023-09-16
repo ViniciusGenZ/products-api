@@ -2,11 +2,11 @@ import { Request, Response } from 'express';
 import { Query } from 'express-serve-static-core';
 import formatResponse from '@adapters/formatResponse';
 import defaultErrorTreatment from '@errors/defaultErrorTreatment';
-import { IProductFilter } from '@interfaces/IProductFilters';
 import SGetAllBrandsWithProducts from '@services/brands/SProductsGroupedByBrands';
+import { IBrandFilter } from '@interfaces/IBrandFilters';
 
 type TypedRequest = Omit<Request, 'query'> & {
-	query: Query & IProductFilter;
+	query: Query & IBrandFilter;
 };
 
 const CBrandsWithProducts = async (req: TypedRequest, res: Response) => {

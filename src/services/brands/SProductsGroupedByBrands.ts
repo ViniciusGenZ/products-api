@@ -1,5 +1,5 @@
 import { Brand } from '@entities/brand';
-import { IProductFilter } from '@interfaces/IProductFilters';
+import { IBrandFilter } from '@interfaces/IBrandFilters';
 import RGetAllBrandsWithProducts from '@repositories/brands/RGetAllBrandsWithProducts';
 
 interface IResponse {
@@ -8,7 +8,7 @@ interface IResponse {
 }
 
 async function SGetAllBrandsWithProducts(
-	input: IProductFilter,
+	input: IBrandFilter,
 ): Promise<IResponse> {
 	return RGetAllBrandsWithProducts(input);
 }
