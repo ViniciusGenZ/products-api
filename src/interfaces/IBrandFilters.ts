@@ -1,12 +1,14 @@
 import { IOrderByEnum } from './IOrderByEnum';
-import { IProductFilterProps } from './IProductFilters';
 
 export type IBrandFilterProps = {
 	name?: string | Array<string>;
+	id_product?: number | Array<number>;
+	id_category?: number | Array<number>;
+	id_brand?: number | Array<number>;
+	internal_id?: number | Array<number>;
+	min_price?: number;
+	max_price?: number;
 	order_by?: IOrderByEnum;
-	products?: IProductFilterProps & {
-		exclude?: IProductFilterProps;
-	};
 };
 
 export interface IBrandFilter extends IBrandFilterProps {
