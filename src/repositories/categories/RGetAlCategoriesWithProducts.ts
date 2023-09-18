@@ -1,17 +1,17 @@
-import { Brand } from '@entities/brand';
 import { IBrandFilter } from '@interfaces/IBrandFilters';
 import RProducts from '@repositories/products/RProducts';
-import RBrands from './RBrands';
 import { Between, In, MoreThan } from 'typeorm';
 import includeAndExclude from '@adapters/includeAndExclude';
+import { Category } from '@entities/category';
+import RCategories from './RCategories';
 import { cloneDeep } from 'lodash';
 
 interface IResponse {
 	count: number;
-	rows: Array<Brand>;
+	rows: Array<Category>;
 }
 
-async function RGetAllBrandsWithProducts({
+async function RGetAlCategoriesWithProducts({
 	offset,
 	limit,
 	name,
@@ -32,16 +32,17 @@ async function RGetAllBrandsWithProducts({
 			precio_mayorista: true,
 			precio_turista: true,
 			precio_web: true,
-			productHasBrands: {
-				id_brand: true,
-				brand: {
+			productHasCategories: {
+				id_category: true,
+				category: {
+					id_category: true,
 					name_py: true,
 				},
 			},
 		},
 		relations: {
-			productHasBrands: {
-				brand: true,
+			productHasCategories: {
+				category: true,
 			},
 		},
 		where: {
@@ -59,8 +60,8 @@ async function RGetAllBrandsWithProducts({
 			},
 		},
 		order: {
-			productHasBrands: {
-				brand: {
+			productHasCategories: {
+				category: {
 					name_py: 'ASC',
 				},
 			},
@@ -70,16 +71,16 @@ async function RGetAllBrandsWithProducts({
 		skip: offset,
 	});
 
-	const brandsIds = products
-		.map((item) => item.productHasBrands.map((item2) => item2.id_brand))
+	const categoriesIds = products
+		.map((item) => item.productHasCategories.map((item2) => item2.id_category))
 		.flat();
 
-	const brands = await RBrands.find({
+	const categories = await RCategories.find({
 		where: {
-			id_brand: In(brandsIds),
+			id_category: In(categoriesIds),
 		},
 		select: {
-			id_brand: true,
+			id_category: true,
 			name_py: true,
 		},
 		order: {
@@ -87,25 +88,25 @@ async function RGetAllBrandsWithProducts({
 		},
 	});
 
-	const rows = brands.map(
-		(item) =>
-			({
-				...item,
-				productHasBrands: products
-					.filter((item2) =>
-						item2.productHasBrands.some(
-							(item3) => item3.id_brand == item.id_brand,
-						),
-					)
-					.map((item4) => {
-						const temp: Partial<typeof item4> = cloneDeep(item4);
-						delete temp.productHasBrands;
-						return temp;
-					}),
-			}) as unknown as Brand,
-	);
+	const rows = categories.map((item) => {
+		const temp = {
+			...item,
+			producthasCategories: products
+				.filter((item2) =>
+					item2.productHasCategories.some(
+						(item3) => item3.id_category == item.id_category,
+					),
+				)
+				.map((item4) => {
+					const temp: Partial<typeof item4> = cloneDeep(item4);
+					delete temp.productHasCategories;
+					return temp;
+				}),
+		};
+		return temp as unknown as Category;
+	});
 
 	return { count, rows };
 }
 
-export default RGetAllBrandsWithProducts;
+export default RGetAlCategoriesWithProducts;

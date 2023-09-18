@@ -2,20 +2,20 @@ import { Request, Response } from 'express';
 import { Query } from 'express-serve-static-core';
 import formatResponse from '@adapters/formatResponse';
 import defaultErrorTreatment from '@errors/defaultErrorTreatment';
-import SGetAllBrandsWithProducts from '@services/brands/SBrandsWithProducts';
-import { IBrandFilter } from '@interfaces/IBrandFilters';
+import { ICategoryFilter } from '@interfaces/ICategoryFilters';
+import SGetAllCategoriesWithProducts from '@services/categories/SCategoryesWithProducts';
 
 type TypedRequest = Omit<Request, 'query'> & {
-	query: Query & IBrandFilter;
+	query: Query & ICategoryFilter;
 };
 
-const CBrandsWithProducts = async (req: TypedRequest, res: Response) => {
+const CCategoriesWithProducts = async (req: TypedRequest, res: Response) => {
 	try {
-		const response = await SGetAllBrandsWithProducts(req.query);
+		const response = await SGetAllCategoriesWithProducts(req.query);
 		return formatResponse(res, 200, 'OK', response);
 	} catch (err) {
 		return defaultErrorTreatment(res, err);
 	}
 };
 
-export default CBrandsWithProducts;
+export default CCategoriesWithProducts;
