@@ -1,7 +1,7 @@
 import { Segments, celebrate } from 'celebrate';
 import Joi from 'joi';
 
-const productfilter = {
+const filter = {
 	id_product: Joi.alternatives().try(
 		Joi.number(),
 		Joi.array().items(Joi.number()),
@@ -25,20 +25,16 @@ const productfilter = {
 
 const VBrandsWIthProduts = celebrate({
 	[Segments.QUERY]: Joi.object().keys({
+		...filter,
 		offset: Joi.number().required().min(0),
 		limit: Joi.number().required().min(1),
-		name: Joi.string(),
 		order_by: Joi.string().valid(
 			'name-asc',
 			'name-desc',
 			'price-asc',
 			'price-desc',
 		),
-		exclude: Joi.object().keys(productfilter),
-		products: {
-			...productfilter,
-			exclude: productfilter,
-		},
+		exclude: Joi.object().keys(filter),
 	}),
 });
 

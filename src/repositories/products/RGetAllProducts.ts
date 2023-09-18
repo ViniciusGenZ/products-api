@@ -131,7 +131,6 @@ function generateQuery(
 	if (name) {
 		if (Array.isArray(name)) {
 			const f = name.join('|');
-			console.log(f);
 			query.andWhere(`${alias}.name_py RLIKE  :name_py`, {
 				name_py: `${f}`,
 			});
