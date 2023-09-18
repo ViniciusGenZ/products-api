@@ -2,7 +2,7 @@ import { Brand } from '@entities/brand';
 import { IBrandFilter } from '@interfaces/IBrandFilters';
 import RProducts from '@repositories/products/RProducts';
 import RBrands from './RBrands';
-import { In, MoreThan, Raw } from 'typeorm';
+import { Between, In, MoreThan } from 'typeorm';
 import filterAdapter from '@adapters/filterAdapter';
 
 interface IResponse {
@@ -14,18 +14,26 @@ async function RGetAllBrandsWithProducts({
 	offset,
 	limit,
 	name,
+	id_product,
+	internal_id,
+	id_category,
+	id_brand,
+	min_price,
+	max_price,
 }: IBrandFilter): Promise<IResponse> {
 	const [products, count] = await RProducts.findAndCount({
 		where: {
 			status_active: true,
 			stock: MoreThan(0),
-			name_py: name
-				? Raw((alias) => `${alias} RLIKE '${filterAdapter(name)}'`)
-				: undefined,
-		},
-		relations: {
+			name_py: filterAdapter(name),
+			id_product: filterAdapter(id_product),
+			internal_id: filterAdapter(internal_id),
+			precio_turista: Between(min_price ?? 0, max_price ?? 99999999),
 			productHasBrands: {
-				brand: true,
+				id_brand: filterAdapter(id_brand),
+			},
+			productHasCategories: {
+				id_category: filterAdapter(id_category),
 			},
 		},
 		select: {
@@ -38,9 +46,11 @@ async function RGetAllBrandsWithProducts({
 			precio_web: true,
 			productHasBrands: {
 				id_brand: true,
-				brand: {
-					name_py: true,
-				},
+			},
+		},
+		relations: {
+			productHasBrands: {
+				brand: true,
 			},
 		},
 		order: {
