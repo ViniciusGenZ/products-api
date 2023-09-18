@@ -12,7 +12,7 @@ async function jwtMiddleware(
 	try {
 		const { authorization } = req.headers;
 
-		if (!authorization) return next();
+		if (!authorization) throw new Err(401, 'Authorization not found');
 
 		const auth = authorization.split(' ');
 		if (auth[0] !== 'Bearer' || auth[1] === '' || !auth[1])

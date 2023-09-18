@@ -11,6 +11,8 @@ import productsRouter from '@routes/products';
 import brandsRouter from '@routes/brands';
 import categoriesRouter from '@routes/categories';
 import exchangeRouter from '@routes/exchanges';
+import jwtMiddleware from '@middlewares/jwt';
+import userContextMiddleware from '@middlewares/userContext';
 
 const app = express();
 
@@ -20,6 +22,9 @@ app.use(userAgent.express());
 app.use(express.json());
 
 app.use('/', healthRouter);
+
+app.use(jwtMiddleware);
+app.use(userContextMiddleware);
 app.use('/api/brands', brandsRouter);
 app.use('/api/categories', categoriesRouter);
 app.use('/api/exchange', exchangeRouter);

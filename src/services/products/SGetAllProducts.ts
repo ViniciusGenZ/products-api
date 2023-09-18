@@ -1,4 +1,4 @@
-import { productToPublicResponse } from '@adapters/productToResponse';
+import { productToResponse } from '@adapters/productToResponse';
 import { IProduct, IPublicProduct } from '@interfaces/IProduct';
 import { IProductFilter } from '@interfaces/IProductFilters';
 import RGetAllProducts from '@repositories/products/RGetAllProducts';
@@ -15,7 +15,7 @@ async function SGetAllProducts(input: IProductFilter): Promise<IResponse> {
 		count,
 		products:
 			products.length > 0
-				? products.map((item: IProduct) => productToPublicResponse(item))
+				? products.map((item: IProduct) => productToResponse(item))
 				: products,
 	};
 }
