@@ -4,7 +4,6 @@ import { Between, In, MoreThan } from 'typeorm';
 import includeAndExclude from '@adapters/includeAndExclude';
 import { Category } from '@entities/category';
 import RCategories from './RCategories';
-import { cloneDeep } from 'lodash';
 
 interface IResponse {
 	count: number;
@@ -32,10 +31,10 @@ async function RGetAlCategoriesWithProducts({
 			precio_mayorista: true,
 			precio_turista: true,
 			precio_web: true,
+			stock: true,
 			productHasCategories: {
 				id_category: true,
 				category: {
-					id_category: true,
 					name_py: true,
 				},
 			},
@@ -91,17 +90,11 @@ async function RGetAlCategoriesWithProducts({
 	const rows = categories.map((item) => {
 		const temp = {
 			...item,
-			producthasCategories: products
-				.filter((item2) =>
-					item2.productHasCategories.some(
-						(item3) => item3.id_category == item.id_category,
-					),
-				)
-				.map((item4) => {
-					const temp: Partial<typeof item4> = cloneDeep(item4);
-					delete temp.productHasCategories;
-					return temp;
-				}),
+			producthasCategories: products.filter((item2) =>
+				item2.productHasCategories.some(
+					(item3) => item3.id_category == item.id_category,
+				),
+			),
 		};
 		return temp as unknown as Category;
 	});
