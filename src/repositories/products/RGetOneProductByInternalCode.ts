@@ -78,7 +78,6 @@ async function RGetOneProductByInternalId(
 		'phd.id_detail = d.id_detail',
 	);
 	const product = await query.getOne();
-
 	return product as unknown as IProduct;
 }
 

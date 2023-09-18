@@ -3,7 +3,7 @@ import { IBrandFilter } from '@interfaces/IBrandFilters';
 import RProducts from '@repositories/products/RProducts';
 import RBrands from './RBrands';
 import { Between, In, MoreThan } from 'typeorm';
-import filterAdapter from '@adapters/filterAdapter';
+import includeAndExclude from '@adapters/includeAndExclude';
 
 interface IResponse {
 	count: number;
@@ -20,22 +20,9 @@ async function RGetAllBrandsWithProducts({
 	id_brand,
 	min_price,
 	max_price,
+	exclude,
 }: IBrandFilter): Promise<IResponse> {
 	const [products, count] = await RProducts.findAndCount({
-		where: {
-			status_active: true,
-			stock: MoreThan(0),
-			name_py: filterAdapter(name),
-			id_product: filterAdapter(id_product),
-			internal_id: filterAdapter(internal_id),
-			precio_turista: Between(min_price ?? 0, max_price ?? 99999999),
-			productHasBrands: {
-				id_brand: filterAdapter(id_brand),
-			},
-			productHasCategories: {
-				id_category: filterAdapter(id_category),
-			},
-		},
 		select: {
 			id_product: true,
 			internal_id: true,
@@ -46,11 +33,28 @@ async function RGetAllBrandsWithProducts({
 			precio_web: true,
 			productHasBrands: {
 				id_brand: true,
+				brand: {
+					name_py: true,
+				},
 			},
 		},
 		relations: {
 			productHasBrands: {
 				brand: true,
+			},
+		},
+		where: {
+			status_active: true,
+			stock: MoreThan(0),
+			name_py: includeAndExclude(name, exclude?.name),
+			id_product: includeAndExclude(id_product, exclude?.id_product),
+			internal_id: includeAndExclude(internal_id, exclude?.internal_id),
+			precio_turista: Between(min_price ?? 0, max_price ?? 99999999),
+			productHasBrands: {
+				id_brand: includeAndExclude(id_brand, exclude?.id_brand),
+			},
+			productHasCategories: {
+				id_category: includeAndExclude(id_category, exclude?.id_category),
 			},
 		},
 		order: {
