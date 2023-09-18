@@ -12,13 +12,14 @@ async function jwtMiddleware(
 	try {
 		const { authorization } = req.headers;
 
-		if (!authorization) throw new Err(401, 'Authorization not found');
+		if (!authorization) throw new Err(401, 'Authentication not found');
 
 		const auth = authorization.split(' ');
 		if (auth[0] !== 'Bearer' || auth[1] === '' || !auth[1])
 			throw new Err(401, 'Malformed authorization header');
 
 		const decoded = jwt.verify(auth[1], process.env.jwtSecret as string);
+
 		if (!decoded) throw new Err(401, 'Authorization invalid');
 
 		req.decodedUserJwt = decoded as IUserToken;
