@@ -142,9 +142,9 @@ function generateQuery(
 	}
 
 	if (min_price)
-		query.andWhere(`${alias}.price_ven >= :min_price`, { min_price });
+		query.andWhere(`${alias}.precio_turista >= :min_price`, { min_price });
 	if (max_price)
-		query.andWhere(`${alias}.price_ven <= :max_price`, { max_price });
+		query.andWhere(`${alias}.precio_turista <= :max_price`, { max_price });
 	return query;
 }
 
